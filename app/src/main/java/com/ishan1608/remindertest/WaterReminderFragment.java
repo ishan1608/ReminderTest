@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.ishan1608.remindertest.service.WaterReminderAlarmReceiver;
 import com.ishan1608.remindertest.service.WaterReminderService;
 
 public class WaterReminderFragment extends Fragment {
@@ -83,9 +84,9 @@ public class WaterReminderFragment extends Fragment {
             public void onClick(View view) {
                 Log.i(TAG, "startAlarmButton clicked");
                 waterReminderAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-                Intent waterReminderAlarmIntent = new Intent(getActivity(), WaterReminderService.AlarmReceiver.class);
+                Intent waterReminderAlarmIntent = new Intent(getActivity(), WaterReminderAlarmReceiver.class);
                 PendingIntent waterAlarmPendingIntent = PendingIntent.getBroadcast(getActivity(), 0, waterReminderAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                // Once alram setup
+                // Once alarm setup
 //                waterReminderAlarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 5 * 1000, waterAlarmPendingIntent);
 
                 // Every fifteen second alarm case

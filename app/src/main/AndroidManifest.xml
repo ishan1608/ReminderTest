@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <service android:name=".service.WaterReminderService" />
-        <receiver android:name=".service.WaterReminderService$AlarmReceiver" android:enabled="true" />
+        <receiver android:name=".service.WaterReminderAlarmReceiver" android:enabled="true" />
     </application>
 
 </manifest>
