@@ -89,7 +89,7 @@ public class WaterReminderFragment extends Fragment {
                 // Once alarm setup
 //                waterReminderAlarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 5 * 1000, waterAlarmPendingIntent);
 
-                // Every fifteen second alarm case
+                // Every minute alarm case
                 waterReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), 60 * 1000, waterAlarmPendingIntent);
             }
         });
