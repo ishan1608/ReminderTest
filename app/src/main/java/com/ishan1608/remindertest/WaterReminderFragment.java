@@ -1,8 +1,12 @@
 package com.ishan1608.remindertest;
 
+import android.app.AlarmManager;
 import android.app.Fragment;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +25,8 @@ public class WaterReminderFragment extends Fragment {
     private Intent waterRepeatedReminderIntent;
     private Button repeatedReminderCancelButton;
     private Intent waterRepeatedReminderCancelIntent;
+    private Button startAlarmButton;
+    private AlarmManager waterReminderAlarmManager;
 
     @Nullable
     @Override
@@ -30,6 +36,7 @@ public class WaterReminderFragment extends Fragment {
         reminderButton = (Button) rootView.findViewById(R.id.reminder_button);
         repeatedReminderButton = (Button) rootView.findViewById(R.id.repeated_reminder_button);
         repeatedReminderCancelButton = (Button) rootView.findViewById(R.id.repeated_reminder_cancel_button);
+        startAlarmButton = (Button) rootView.findViewById(R.id.start_alarm_button);
 
         // Click handling for the buttons
 
@@ -67,6 +74,17 @@ public class WaterReminderFragment extends Fragment {
                 waterReminderIntent = new Intent(getActivity(), WaterReminderService.class);
                 waterReminderIntent.setAction(WaterReminderService.WATER_REMINDER_TASK);
                 getActivity().startService(waterReminderIntent);
+            }
+        });
+
+        startAlarmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG, "startAlarmButton clicked");
+                waterReminderAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+                Intent waterReminderAlarmIntent = new Intent(getActivity(), WaterReminderService.AlarmReceiver.class);
+                PendingIntent waterAlarmPendingIntent = PendingIntent.getBroadcast(getActivity(), 0, waterReminderAlarmIntent, 0);
+                waterReminderAlarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 5 * 1000, waterAlarmPendingIntent);
             }
         });
         return rootView;
