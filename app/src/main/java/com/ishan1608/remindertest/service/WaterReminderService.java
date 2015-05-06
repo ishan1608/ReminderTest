@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -17,7 +16,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class WaterReminderService extends IntentService {
-    private static final int WATER_REMINDER_TASK_NOTIFICATION = 1;
+    private static final int WATER_REMINDER_TASK_NOTIFICATION_ID = 1;
     private final String TAG = "WATER_REMINDER_SERVICE";
     public static final String WATER_REMINDER_TASK = "com.ishan1608.remindertest.service.action.WATER_REMINDER_TASK";
     public static final String WATER_REMINDER_TASK_REPEATED = "com.ishan1608.remindertest.service.action.WATER_REMINDER_TASK_REPEATED";
@@ -92,10 +91,12 @@ public class WaterReminderService extends IntentService {
                 .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
-        waterReminderNotificationManager.notify(WATER_REMINDER_TASK_NOTIFICATION, mBuilder.build());
+        waterReminderNotificationManager.notify(WATER_REMINDER_TASK_NOTIFICATION_ID, mBuilder.build());
     }
 
     public static class AlarmReceiver extends BroadcastReceiver {
+
+        static int notificationCount = 1;
 
         private String TAG = AlarmReceiver.class.getSimpleName();
         private NotificationManager waterReminderNotificationManager;
@@ -118,14 +119,15 @@ public class WaterReminderService extends IntentService {
 
             PendingIntent contentIntent = PendingIntent.getActivity(context, 0, goingIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
+            NotificationCompat.Builder waterNotificationBuilder = new NotificationCompat.Builder(
                     context).setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(title)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(msg))
                     .setContentText(msg);
 
-            mBuilder.setContentIntent(contentIntent);
-            waterReminderNotificationManager.notify(WATER_REMINDER_TASK_NOTIFICATION, mBuilder.build());
+            waterNotificationBuilder.setContentIntent(contentIntent);
+            waterNotificationBuilder.setNumber(notificationCount++);
+            waterReminderNotificationManager.notify(WATER_REMINDER_TASK_NOTIFICATION_ID, waterNotificationBuilder.build());
         }
     }
 }

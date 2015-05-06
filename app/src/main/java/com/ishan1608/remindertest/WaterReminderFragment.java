@@ -18,20 +18,21 @@ import com.ishan1608.remindertest.service.WaterReminderService;
 
 public class WaterReminderFragment extends Fragment {
     private static final String TAG = "WaterReminderFragment";
-    private View rootView;
-    private Button reminderButton;
+
     private Button repeatedReminderButton;
     private Intent waterReminderIntent;
     private Intent waterRepeatedReminderIntent;
     private Button repeatedReminderCancelButton;
     private Intent waterRepeatedReminderCancelIntent;
-    private Button startAlarmButton;
+
     private AlarmManager waterReminderAlarmManager;
+    private Button reminderButton;
+    private Button startAlarmButton;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.water_reminder_fragment, null);
+        View rootView = inflater.inflate(R.layout.water_reminder_fragment, null);
         // Getting handle
         reminderButton = (Button) rootView.findViewById(R.id.reminder_button);
         repeatedReminderButton = (Button) rootView.findViewById(R.id.repeated_reminder_button);
@@ -83,8 +84,12 @@ public class WaterReminderFragment extends Fragment {
                 Log.i(TAG, "startAlarmButton clicked");
                 waterReminderAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
                 Intent waterReminderAlarmIntent = new Intent(getActivity(), WaterReminderService.AlarmReceiver.class);
-                PendingIntent waterAlarmPendingIntent = PendingIntent.getBroadcast(getActivity(), 0, waterReminderAlarmIntent, 0);
-                waterReminderAlarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 5 * 1000, waterAlarmPendingIntent);
+                PendingIntent waterAlarmPendingIntent = PendingIntent.getBroadcast(getActivity(), 0, waterReminderAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                // Once alram setup
+//                waterReminderAlarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 5 * 1000, waterAlarmPendingIntent);
+
+                // Every fifteen second alarm case
+                waterReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), 60 * 1000, waterAlarmPendingIntent);
             }
         });
         return rootView;
