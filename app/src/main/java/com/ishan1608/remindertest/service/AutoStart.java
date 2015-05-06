@@ -17,12 +17,12 @@ public class AutoStart extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // Starting water reminder alarm
-        Log.i(TAG, "AutoStart -> onReceive clicked");
+        Log.i(TAG, "AutoStart -> onReceive called");
         AlarmManager waterReminderAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent waterReminderAlarmIntent = new Intent(context, WaterReminderAlarmReceiver.class);
         PendingIntent waterAlarmPendingIntent = PendingIntent.getBroadcast(context, 0, waterReminderAlarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Every minute alarm
-        waterReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), 60 * 1000, waterAlarmPendingIntent);
+        waterReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 60 * 1000, waterAlarmPendingIntent);
     }
 }

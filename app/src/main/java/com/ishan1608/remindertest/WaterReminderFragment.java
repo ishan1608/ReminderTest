@@ -90,7 +90,7 @@ public class WaterReminderFragment extends Fragment {
 //                waterReminderAlarmManager.set(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime() + 5 * 1000, waterAlarmPendingIntent);
 
                 // Every minute alarm case
-                waterReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME, SystemClock.elapsedRealtime(), 60 * 1000, waterAlarmPendingIntent);
+                waterReminderAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 60 * 1000, waterAlarmPendingIntent);
             }
         });
         return rootView;
